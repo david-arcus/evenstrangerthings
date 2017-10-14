@@ -1,5 +1,9 @@
-<div class="container">
+<div class="lighting"><img src="/assets/images/lighting.png" /></div>
+<div class="hero"><img src="/assets/images/even-stranger-things.svg" /></div>
+<div class="upload" ngf-select="main.upload($file)" ngf-accept="'image/*'" ngf-capture="'camera'"><img src="assets/images/upload.png" /></div>
 
-  <h1>help</h1>
 
+<div class="canvas-container">
+  <spinner ng-show="main.loading"></spinner>
+  <canvas id="preview"></canvas>
 </div>

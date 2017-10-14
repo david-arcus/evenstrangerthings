@@ -2,6 +2,6 @@
   'use strict';
 
   angular
-    .module('evenstrangerthings', ['ngRoute']);
+    .module('evenstrangerthings', ['ngRoute', 'ngFileUpload']);
 
 })();
