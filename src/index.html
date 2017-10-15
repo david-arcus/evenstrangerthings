@@ -40,25 +40,28 @@
         }
       }
 
-      .hero, .lighting {
+      .container {
         width:100%;
-        max-width:830px;
+        max-width:730px;
         position:absolute;
         top:50%;
         left:50%;
         transform:translate(-50%, -50%);
-        margin-top:-100px;
+        overflow:hidden;
       }
 
       .lighting {
-        width:100%;
-        max-width:1140px;
-        z-index:2;
         mix-blend-mode:multiply;
+        z-index:2;
+        position:absolute;
+        width:100%;
+        top:0;
+        left:0;
         opacity:0.7;
       }
 
       .hero {
+        width:100%;
         padding:20px;
         box-sizing:border-box;
       }
@@ -70,12 +73,12 @@
     </style>
 
 
-    <div ng-if="false">
-      <div class="lighting"><img src="/assets/images/lighting.png" /></div>
-      <div class="hero"><img src="/assets/images/even-stranger-things.svg" /></div>
-    </div>
-
     <div class="container">
+
+      <div ng-if="false">
+        <div class="lighting"><img src="/assets/images/lighting.png" /></div>
+        <div class="hero"><img src="/assets/images/even-stranger-things.svg" /></div>
+      </div>
 
       <div ng-view></div>
 

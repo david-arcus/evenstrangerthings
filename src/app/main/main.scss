@@ -1,15 +1,82 @@
+.hero, .lighting {
+  transition: 700ms all;
+
+  &.hide {
+    transform: translateY(-100px);
+    opacity:0;
+  }
+}
+
 .upload {
   width:300px;
+  height:202px;
+  margin:20px auto 0px auto;
+  position: relative;
+  transition: 700ms all;
+
+  &.hide {
+    transform: translateY(100px);
+    opacity:0;
+  }
+
+  img {
+    position: absolute;
+
+    &.tv {
+      width:300px;
+      height:202px;
+      top:0;
+      left:0;
+      z-index:2;
+    }
+
+    &.upload-an-image {
+      width: 191px;
+      top: 25px;
+      left: 26px;
+      z-index:3;
+    }
+  }
+
+  video {
+    position: absolute;
+    // z-index: -1;
+    top: 20px;
+    left: 10px;
+    width: 280px;
+  }
+}
+
+.canvas-container {
+  opacity:0;
+  transition: 700ms opacity;
+  transition-delay: 400ms;
+
+  width:100%;
+  max-width:500px;
   position:absolute;
   top:50%;
   left:50%;
   transform:translate(-50%, -50%);
-  margin-top:200px;
-  opacity:0.6;
-  z-index: 3;
 
-  img {
+  &.show {
+    opacity:1;
+  }
+
+  canvas {
+    position: absolute;
+    top:0;
+    left:0;
     width:100%;
     height:auto;
   }
+}
+
+#canvas-background, #mask, #lighting-small {
+  position: absolute;
+  z-index:-1;
+  top:0;
+  left:0;
+  opacity:0;
+  pointer-events: none;
 }

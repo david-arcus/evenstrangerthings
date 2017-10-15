@@ -16,14 +16,18 @@
     vm.previewImage = '';
 
     var canvas = document.getElementById('preview'),
-     canvasContainer = document.querySelector('.canvas-container'),
-     ctx = canvas.getContext('2d'),
-     oc = document.createElement('canvas'),
-     octx = oc.getContext('2d'),
-     img = new Image(),
-     postImage,
-     reader = new FileReader(),
-     srcOrientation
+    canvasContainer = document.querySelector('.canvas-container'),
+    ctx = canvas.getContext('2d'),
+    oc = document.createElement('canvas'),
+    octx = oc.getContext('2d'),
+    zc = document.createElement('canvas'),
+    zctx = zc.getContext('2d'),
+    img = new Image(),
+    postImage,
+    reader = new FileReader(),
+    srcOrientation,
+    size = 1000;
+
 
     var ENV = Environment.apiURL;
 
@@ -41,20 +45,36 @@
 
         img.onload = function() {
 
-          rotateFromEXIF(img, 600, canvas, ctx, false);    // rotate for preview on screen
+          rotateFromEXIF(img, 500, canvas, ctx, false);   // rotate for preview on screen
 
-          rotateFromEXIF(img, 300, oc, octx, true);       // rotate to send to our doggy face detector
+          rotateFromEXIF(img, 640, oc, octx, true);       // rotate to send to a different planet
 
-          postImage = oc.toDataURL('image/jpeg', 0.8); // post image is compressed and resized via js
+          postImage = oc.toDataURL('image/jpeg', 0.6);    // post image is compressed and resized via js
 
           Api.postImage(postImage).then(function(result) {
 
             vm.loading = false;
 
+            // not the angular way #uwotmate
+            document.querySelector('.hero').classList.add('hide');
+            document.querySelector('.lighting').classList.add('hide');
+            document.querySelector('.upload').classList.add('hide');
+            document.querySelector('.canvas-container').classList.add('show');
+
             if (result.data.status=='success') {
 
               $log.debug(result.data);
               vm.success = true;
+
+              var f = new FontFace('Benguiat', 'url(fonts/BenguiatStd-Medium.ttf)');
+
+              f.load().then(function(font) {
+
+                document.fonts.add(font);
+
+                drawTextOnCanvas(result);
+
+              });
 
             } else {
 
@@ -80,6 +100,50 @@
 
     };
 
+    function drawTextOnCanvas(result) {
+
+      var fontSize = fitTextOnCanvas(result.data.results[0].toUpperCase(), 491);
+      var lighting = document.getElementById('lighting-small');
+
+      ctx.textBaseline = 'top';
+      ctx.shadowColor = 'rgba(215,21,0, 1)';
+      ctx.shadowOffsetX = 0;
+      ctx.shadowOffsetY = 0;
+      ctx.shadowBlur = 7;
+      ctx.font = fontSize + 'px Benguiat';
+      ctx.lineWidth = 2;
+      ctx.strokeStyle = 'rgb(255,0,7)';
+      ctx.strokeText(result.data.results[0].toUpperCase(), 254, 805);
+      ctx.shadowBlur = 5;
+      ctx.strokeText(result.data.results[0].toUpperCase(), 254, 805);
+      // ctx.shadowBlur = 2;
+      // ctx.strokeText(result.data.results[0].toUpperCase(), 254, 805);
+
+      ctx.shadowBlur = 0;
+      ctx.globalAlpha = 0.6;
+      ctx.globalCompositeOperation = 'multiply';
+      ctx.drawImage(lighting, 54, 574, 853, 568);
+
+    }
+
+    function fitTextOnCanvas(text, width){
+
+      // start with a large font size
+      var fontSize=300;
+
+      // lower the font size until the text fits the canvas
+      do {
+          fontSize--;
+          ctx.font = fontSize + 'px Benguiat';
+      } while(ctx.measureText(text).width > width)
+
+      // draw the text
+      ctx.fillText(text, 0, 0);
+
+      return fontSize;
+
+    }
+
     function rotateFromEXIF(img, width, canvas, ctx, isUpload) {
 
       // if (width > img.width) {
@@ -93,17 +157,17 @@
 
        // portrait
 
-       // make sure our uploaded image is 300 pixels wide at all costs
+       // make sure our uploaded image is 640 pixels wide at all costs
 
        if (isUpload) {
 
-         canvas.width = 300;
+         canvas.width = 640;
 
          var ratio = 1/(img.height/img.width);
 
-         canvas.height = parseInt(300 * ratio);
+         canvas.height = parseInt(640 * ratio);
 
-         height = 300;
+         height = 640;
          width = canvas.height;
 
 
@@ -133,7 +197,40 @@
         default: ctx.transform(1, 0, 0, 1, 0, 0);
       }
 
-      ctx.drawImage(img, 0, 0, width, height);
+      if (isUpload) {
+
+        ctx.drawImage(img, 0, 0, width, height);
+
+      } else {
+
+        drawFinalImage();
+
+      }
+
+    }
+
+    function drawFinalImage() {
+
+      var background = document.getElementById('canvas-background');
+      var mask = document.getElementById('mask');
+
+      canvas.width = size;
+      canvas.height = size;
+      zc.width = size;
+      zc.height = size;
+
+      zctx.drawImage(mask, 0, 0, size, size);
+      zctx.globalCompositeOperation = 'source-in';
+
+      drawImageProp(zctx, img, 0, 0, size, size);
+
+      ctx.drawImage(background, 0, 0, size, size);
+
+      ctx.globalCompositeOperation = 'overlay';
+      ctx.drawImage(zc, 0, 0, size, size);
+
+      ctx.globalCompositeOperation = 'normal';
+
 
     }
 
@@ -180,6 +277,61 @@
       }
 
     };
+
+    /**
+     * By Ken Fyrstenberg Nilsen
+     *
+     * drawImageProp(context, image [, x, y, width, height [,offsetX, offsetY]])
+     *
+     * If image and context are only arguments rectangle will equal canvas
+    */
+    function drawImageProp(ctx, img, x, y, w, h, offsetX, offsetY) {
+
+        if (arguments.length === 2) {
+            x = y = 0;
+            w = ctx.canvas.width;
+            h = ctx.canvas.height;
+        }
+
+        // default offset is center
+        offsetX = typeof offsetX === "number" ? offsetX : 0.5;
+        offsetY = typeof offsetY === "number" ? offsetY : 0.5;
+
+        // keep bounds [0.0, 1.0]
+        if (offsetX < 0) offsetX = 0;
+        if (offsetY < 0) offsetY = 0;
+        if (offsetX > 1) offsetX = 1;
+        if (offsetY > 1) offsetY = 1;
+
+        var iw = img.width,
+            ih = img.height,
+            r = Math.min(w / iw, h / ih),
+            nw = iw * r,   // new prop. width
+            nh = ih * r,   // new prop. height
+            cx, cy, cw, ch, ar = 1;
+
+        // decide which gap to fill
+        if (nw < w) ar = w / nw;
+        if (Math.abs(ar - 1) < 1e-14 && nh < h) ar = h / nh;  // updated
+        nw *= ar;
+        nh *= ar;
+
+        // calc source rectangle
+        cw = iw / (nw / w);
+        ch = ih / (nh / h);
+
+        cx = (iw - cw) * offsetX;
+        cy = (ih - ch) * offsetY;
+
+        // make sure source rectangle is valid
+        if (cx < 0) cx = 0;
+        if (cy < 0) cy = 0;
+        if (cw > iw) cw = iw;
+        if (ch > ih) ch = ih;
+
+        // fill image in dest. rectangle
+        ctx.drawImage(img, cx, cy, cw, ch,  x, y, w, h);
+    }
 
   }
 })();

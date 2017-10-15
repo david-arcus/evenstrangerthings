@@ -1,9 +1,21 @@
 <div class="lighting"><img src="/assets/images/lighting.png" /></div>
 <div class="hero"><img src="/assets/images/even-stranger-things.svg" /></div>
-<div class="upload" ngf-select="main.upload($file)" ngf-accept="'image/*'" ngf-capture="'camera'"><img src="assets/images/upload.png" /></div>
 
+<div class="upload" ngf-select="main.upload($file)" ngf-accept="'image/*'" ngf-capture="'camera'">
+  <img class="tv" src="assets/images/tv.png" />
+  <img class="upload-an-image" src="assets/images/upload-an-image.png" ng-hide="main.loading" />
+  <video autoplay loop muted playsinline>
+    <source src="assets/videos/glitch-150.mp4">
+  </video>
+
+</div>
 
 <div class="canvas-container">
-  <spinner ng-show="main.loading"></spinner>
+  <!-- <spinner></spinner> -->
   <canvas id="preview"></canvas>
+  <img src="assets/images/canvas-placeholder.png" />
 </div>
+
+<img id="canvas-background" src="assets/images/canvas-background.png" />
+<img id="mask" src="assets/images/mask.png" />
+<img id="lighting-small" src="assets/images/lighting-small.png" />

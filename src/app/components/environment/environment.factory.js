@@ -19,9 +19,9 @@
         path = "http://localhost:8000/api";
         break;
 
-      case 'http://13.55.9.100/' :
+      case 'evenstrangerthings.s3-website-us-east-1.amazonaws.com' :
       default :
-        path = "/api";
+        path = "http://dapi.us-east-1.elasticbeanstalk.com/api";
       break;
     }
 
