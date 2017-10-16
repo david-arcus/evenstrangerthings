@@ -1,21 +1,25 @@
 <div class="lighting"><img src="/assets/images/lighting.png" /></div>
 <div class="hero"><img src="/assets/images/even-stranger-things.svg" /></div>
+<div class="desc"><img src="/assets/images/description.svg" /></div>
 
-<div class="upload" ngf-select="main.upload($file)" ngf-accept="'image/*'" ngf-capture="'camera'">
+<spinner ng-show="!main.allAssetsLoaded"></spinner>
+
+<div class="upload" ngf-select="main.upload($file)" ngf-accept="'image/*'" ngf-capture="'camera'" ng-show="main.allAssetsLoaded">
   <img class="tv" src="assets/images/tv.png" />
   <img class="upload-an-image" src="assets/images/upload-an-image.png" ng-hide="main.loading" />
   <video autoplay loop muted playsinline>
     <source src="assets/videos/glitch-150.mp4">
   </video>
-
 </div>
 
-<div class="canvas-container">
+<div class="canvas-container" ng-show="main.allAssetsLoaded">
   <!-- <spinner></spinner> -->
   <canvas id="preview"></canvas>
   <img src="assets/images/canvas-placeholder.png" />
 </div>
 
-<img id="canvas-background" src="assets/images/canvas-background.png" />
-<img id="mask" src="assets/images/mask.png" />
-<img id="lighting-small" src="assets/images/lighting-small.png" />
+<div class="assets" ng-show="main.allAssetsLoaded">
+  <img id="canvas-background" src="assets/images/canvas-background.png" />
+  <img id="mask" src="assets/images/mask.png" />
+  <img id="lighting-small" src="assets/images/lighting-small.png" />
+</div>

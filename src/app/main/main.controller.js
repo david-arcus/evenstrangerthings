@@ -6,30 +6,72 @@
     .controller('MainController', MainController);
 
   /** @ngInject */
-  function MainController($timeout, $log, $window, $location, $rootScope, Api, Upload, Environment) {
+  function MainController($log, $scope, Api, Upload, Environment) {
 
     var vm = this;
 
-    vm.gotResponse = false;
-    vm.loading = false;
-    vm.base64Image = '';
-    vm.previewImage = '';
+        vm.gotResponse = false;
+        vm.loading = false;
+        vm.base64Image = '';
+        vm.previewImage = '';
+        vm.allAssetsLoaded = false;
 
-    var canvas = document.getElementById('preview'),
-    canvasContainer = document.querySelector('.canvas-container'),
-    ctx = canvas.getContext('2d'),
-    oc = document.createElement('canvas'),
-    octx = oc.getContext('2d'),
-    zc = document.createElement('canvas'),
-    zctx = zc.getContext('2d'),
-    img = new Image(),
-    postImage,
-    reader = new FileReader(),
-    srcOrientation,
-    size = 1000;
-
+    var img = new Image(),
+        postImage,
+        reader = new FileReader(),
+        srcOrientation,
+        size = 1000,
+        manifest,
+        preload;
 
     var ENV = Environment.apiURL;
+
+    // now all our canvas elements
+
+    var zc      = document.createElement('canvas'),
+        zctx    = zc.getContext('2d'),
+
+        yc      = document.createElement('canvas'),
+        yctx    = yc.getContext('2d'),
+
+        oc      = document.createElement('canvas'),
+        octx    = oc.getContext('2d'),
+
+        canvas  = document.getElementById('preview'),
+        ctx     = canvas.getContext('2d'),
+
+        canvasContainer = document.querySelector('.canvas-container');
+
+    preloadAssets();
+
+    function preloadAssets() {
+
+      manifest = [
+        'assets/images/tv.png',
+        'assets/images/upload-an-image.png',
+        'assets/videos/glitch-150.mp4',
+        'assets/images/canvas-placeholder.png',
+        'assets/images/canvas-background.png',
+        'assets/images/mask.png',
+        'assets/images/lighting-small.png'
+      ];
+
+      preload = new createjs.LoadQueue(true, '/');
+
+      preload.on('complete', handleComplete);
+      preload.loadManifest(manifest, true, "/");
+
+
+    };
+
+    function handleComplete() {
+
+      $scope.$apply(function() {
+        vm.allAssetsLoaded = true;
+
+      });
+
+    }
 
     vm.upload = function (file) {
 
@@ -45,7 +87,7 @@
 
         img.onload = function() {
 
-          rotateFromEXIF(img, 500, canvas, ctx, false);   // rotate for preview on screen
+          rotateFromEXIF(img, size, zc, zctx, false);      // rotate in a temporary canvas to put in our final canvas
 
           rotateFromEXIF(img, 640, oc, octx, true);       // rotate to send to a different planet
 
@@ -58,6 +100,7 @@
             // not the angular way #uwotmate
             document.querySelector('.hero').classList.add('hide');
             document.querySelector('.lighting').classList.add('hide');
+            document.querySelector('.desc').classList.add('hide');
             document.querySelector('.upload').classList.add('hide');
             document.querySelector('.canvas-container').classList.add('show');
 
@@ -66,15 +109,7 @@
               $log.debug(result.data);
               vm.success = true;
 
-              var f = new FontFace('Benguiat', 'url(fonts/BenguiatStd-Medium.ttf)');
-
-              f.load().then(function(font) {
-
-                document.fonts.add(font);
-
-                drawTextOnCanvas(result);
-
-              });
+              drawTextOnCanvas(result);
 
             } else {
 
@@ -197,11 +232,9 @@
         default: ctx.transform(1, 0, 0, 1, 0, 0);
       }
 
-      if (isUpload) {
+      ctx.drawImage(img, 0, 0, width, height);
 
-        ctx.drawImage(img, 0, 0, width, height);
-
-      } else {
+      if (!isUpload) {
 
         drawFinalImage();
 
@@ -209,25 +242,26 @@
 
     }
 
-    function drawFinalImage() {
+    function drawFinalImage(width, height) {
 
       var background = document.getElementById('canvas-background');
       var mask = document.getElementById('mask');
 
       canvas.width = size;
       canvas.height = size;
-      zc.width = size;
-      zc.height = size;
 
-      zctx.drawImage(mask, 0, 0, size, size);
-      zctx.globalCompositeOperation = 'source-in';
+      yc.width = size;
+      yc.height = size;
 
-      drawImageProp(zctx, img, 0, 0, size, size);
+      yctx.drawImage(mask, 0, 0, size, size);
+      yctx.globalCompositeOperation = 'source-in';
+
+      drawImageProp(yctx, zc, 0, 0, size, size);
 
       ctx.drawImage(background, 0, 0, size, size);
 
       ctx.globalCompositeOperation = 'overlay';
-      ctx.drawImage(zc, 0, 0, size, size);
+      ctx.drawImage(yc, 0, 0, size, size);
 
       ctx.globalCompositeOperation = 'normal';
 
