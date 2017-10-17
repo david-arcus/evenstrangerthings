@@ -7,19 +7,28 @@
 <div class="upload" ngf-select="main.upload($file)" ngf-accept="'image/*'" ngf-capture="'camera'" ng-show="main.allAssetsLoaded">
   <img class="tv" src="assets/images/tv.png" />
   <img class="upload-an-image" src="assets/images/upload-an-image.png" ng-hide="main.loading" />
-  <video autoplay loop muted playsinline>
-    <source src="assets/videos/glitch-150.mp4">
-  </video>
+  <img class="glitch" src="assets/images/loading.gif" />
 </div>
 
 <div class="canvas-container" ng-show="main.allAssetsLoaded">
-  <!-- <spinner></spinner> -->
+
   <canvas id="preview"></canvas>
   <img src="assets/images/canvas-placeholder.png" />
+  <div class="share"><img src="assets/images/share.png" /></div>
+
 </div>
 
 <div class="assets" ng-show="main.allAssetsLoaded">
   <img id="canvas-background" src="assets/images/canvas-background.png" />
   <img id="mask" src="assets/images/mask.png" />
   <img id="lighting-small" src="assets/images/lighting-small.png" />
+</div>
+
+<div class="uploading" ng-show="main.uploading">
+  <spinner></spinner>
+</div>
+
+<div class="share" ng-show="main.uploaded">
+  <div class="facebook"></div>
+  <div class="download"></div>
 </div>

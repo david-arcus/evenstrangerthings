@@ -49,7 +49,7 @@
       manifest = [
         'assets/images/tv.png',
         'assets/images/upload-an-image.png',
-        'assets/videos/glitch-150.mp4',
+        'assets/images/loading.gif',
         'assets/images/canvas-placeholder.png',
         'assets/images/canvas-background.png',
         'assets/images/mask.png',
