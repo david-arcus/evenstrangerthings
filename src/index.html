@@ -2,8 +2,8 @@
 <html ng-app="evenstrangerthings">
   <head>
     <meta charset="utf-8">
-    <title>evenstrangerthings</title>
-    <meta name="description" content="">
+    <title>Even Stranger Things</title>
+    <meta name="description" content="Use artificial intelligence to identify what's in your image then generate an Even Stranger Image.">
     <meta name="viewport" content="width=device-width">
     <base href="/">
     <!-- Place favicon.ico and apple-touch-icon.png in the root directory -->
@@ -19,10 +19,31 @@
     <!-- css files will be automatically insert here -->
     <!-- endinject -->
     <!-- endbuild -->
+
+    <meta property="og:type" content="website" />
+    <meta property="og:title" content="Even Stranger Things" />
+    <meta property="og:url" content="http://evenstranger.pw" />
+    <meta property="og:description" content="Use artificial intelligence to identify what's in your image then generate an Even Stranger Image." />
+    <meta property="og:image" content="http://evenstranger.pw/assets/images/share-image.png" />
+
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="Even Stranger Things">
+    <meta name="twitter:description" content="Use artificial intelligence to identify what's in your image then generate an Even Stranger Image.">
+    <meta name="twitter:image" content="http://evenstranger.pw">
+    <meta name="twitter:domain" content="http://evenstranger.pw/assets/images/share-image.png">
+    <!-- Global site tag (gtag.js) - Google Analytics -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=UA-108604490-1"></script>
+    <script>
+      window.dataLayer = window.dataLayer || [];
+      function gtag(){dataLayer.push(arguments);}
+      gtag('js', new Date());
+      gtag('config', 'UA-108604490-1');
+    </script>
   </head>
   <body>
-    <style type="text/css"> body { margin:0; padding:0; } @font-face { font-family: 'Benguiat'; font-style: normal; font-weight: normal; src: url('fonts/BenguiatStd-Medium.ttf') format('truetype'); } @media(max-width:600px) { body { background:#000 url('/assets/images/trees-mobile.jpg') no-repeat center bottom; background-size:cover; } } @media(min-width:601px) { body { background:#000 url('/assets/images/trees-desktop.jpg') no-repeat center bottom; background-size:cover; } } .container { width:100%; max-width:730px; position:absolute; top:50%; left:50%; transform:translate(-50%, -50%); overflow:hidden; } .lighting { mix-blend-mode:multiply; z-index:2; position:absolute; width:100%; top:0; left:0; opacity:0.7; } .hero { width:100%; padding:20px; box-sizing:border-box; } /* h3 { color:#fff; display:block; padding:0px 20px 7px 20px; width:100%; max-width:450px; margin:0px auto; text-align: center; box-sizing: border-box; color:#babab9; text-transform: uppercase; font-size:14px; font-weight: normal; font-family: 'Benguiat'; opacity:0.7; } */ .desc { width:100%; max-width:410px; opacity:0.5; margin:0px auto 23px auto; padding:0 20px; box-sizing: border-box; transition:700ms opacity; } .desc.hide { opacity:0; } img { width:100%; height:auto; } </style>
-
+    <style type="text/css"> body { margin:0; padding:0; } @font-face { font-family: 'Benguiat'; font-style: normal; font-weight: normal; src: url('fonts/BenguiatStd-Medium.ttf') format('truetype'); } @media(max-width:600px) { body { background:#000 url('/assets/images/trees-mobile.jpg') no-repeat center bottom; background-size:cover; } } @media(min-width:601px) { body { background:#000 url('/assets/images/trees-desktop.jpg') no-repeat center bottom; background-size:cover; } } .container { width:100%; max-width:730px; position:absolute; top:50%; left:50%; transform:translate(-50%, -50%); overflow:hidden; } .lighting { mix-blend-mode:multiply; z-index:2; position:absolute; width:100%; top:0; left:0; opacity:0.7; } .hero { width:100%; padding:20px; box-sizing:border-box; } /* h3 { color:#fff; display:block; padding:0px 20px 7px 20px; width:100%; max-width:450px; margin:0px auto; text-align: center; box-sizing: border-box; color:#babab9; text-transform: uppercase; font-size:14px; font-weight: normal; font-family: 'Benguiat'; opacity:0.7; } */ .desc { width:100%; max-width:410px; opacity:0.5; margin:0px auto 23px auto; padding:0 20px; box-sizing: border-box; transition:700ms opacity; } .desc.hide { opacity:0; } img { width:100%; height:auto; } .fb-like {position:absolute; top:10px; left:10px; }</style>
+    <div id="fb-root"></div><script>(function(d, s, id) {  var js, fjs = d.getElementsByTagName(s)[0];  if (d.getElementById(id)) return;  js = d.createElement(s); js.id = id;  js.src = 'https://connect.facebook.net/en_GB/sdk.js#xfbml=1&version=v2.10&appId=1621937751209819';  fjs.parentNode.insertBefore(js, fjs); }(document, 'script', 'facebook-jssdk'));</script>
+    <div class="fb-like" data-href="http://evenstranger.pw" data-layout="button_count" data-action="like" data-size="small" data-show-faces="true" data-share="true"></div>
     <div class="container">
 
       <span style="font-family: 'Benguiat'">&nbsp;</span>
@@ -37,6 +58,8 @@
       <div ng-view></div>
 
     </div>
+
+    <small>site by <a href="https://davidarc.us">dave</a></small>
 
     <script src="scripts/preloadjs.min.js"></script>
 

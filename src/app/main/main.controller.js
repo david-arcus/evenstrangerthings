@@ -22,7 +22,9 @@
         srcOrientation,
         size = 1000,
         manifest,
-        preload;
+        preload,
+        timeoutID;
+
 
     var ENV = Environment.apiURL;
 
@@ -43,6 +45,7 @@
         canvasContainer = document.querySelector('.canvas-container');
 
     preloadAssets();
+    window.clearTimeout(timeoutID);
 
     function preloadAssets() {
 
@@ -102,7 +105,8 @@
             document.querySelector('.lighting').classList.add('hide');
             document.querySelector('.desc').classList.add('hide');
             document.querySelector('.upload').classList.add('hide');
-            document.querySelector('.canvas-container').classList.add('show');
+
+            timeoutID = window.setTimeout(setContainerFullHeight, 400);
 
             if (result.data.status=='success') {
 
@@ -117,6 +121,11 @@
               vm.success = false;
 
             }
+
+          })
+          .catch(function (error) {
+            alert('This site is too busy right now :( Please try again, or come back later.');
+            window.location.reload();
 
           });
 
@@ -134,6 +143,32 @@
       //return;
 
     };
+
+    vm.goAgain = function() {
+
+      // not the angular way #uwotmate
+      document.querySelector('.canvas-container').classList.remove('show');
+      timeoutID = window.setTimeout(restoreElements, 700);
+
+    }
+
+    function restoreElements() {
+
+      document.querySelector('.hero').classList.remove('hide');
+      document.querySelector('.lighting').classList.remove('hide');
+      document.querySelector('.desc').classList.remove('hide');
+      document.querySelector('.upload').classList.remove('hide');
+
+      document.querySelector('.container').classList.remove('full-height');
+
+      window.clearTimeout(timeoutID);
+
+    }
+
+    function setContainerFullHeight() {
+      document.querySelector('.canvas-container').classList.add('show');
+      document.querySelector('.container').classList.add('full-height');
+    }
 
     function drawTextOnCanvas(result) {
 
