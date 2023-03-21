@@ -1,42 +1,42 @@
 # evenstrangerthings
 
-- clone the repo:
+clone the repo:
 
-git clone https://github.com/david-arcus/evenstrangerthings.git
+`git clone https://github.com/david-arcus/evenstrangerthings.git`
 
-- install node and npm (i'm on OSX and using brew)
+install node and npm (i'm on OSX and using brew)
 
-brew install node
+`brew install node`
 
-- install node version manager
+install node version manager
 
-curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.39.3/install.sh | bash
+`curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.39.3/install.sh | bash`
 
 or 
 
-wget -qO- https://raw.githubusercontent.com/nvm-sh/nvm/v0.39.3/install.sh | bash
+`wget -qO- https://raw.githubusercontent.com/nvm-sh/nvm/v0.39.3/install.sh | bash`
 
-- install node 8
+install node 8
 
-nvm install 8
+`nvm install 8`
 
-- install bower
+install bower
 
-npm install -g bower
+`npm install -g bower`
 
-- install gulp 
+install gulp
 
-npm install --global gulp-cli
+`npm install --global gulp-cli`
 
-- install node dependencies
+install node dependencies
 
-npm i
+`npm i`
 
-- install bower dependencies
+install bower dependencies
 
-bower install
+`bower install`
 
-- run local server with gulp
+run local server with gulp
 
-gulp serve
+`gulp serve`
 
