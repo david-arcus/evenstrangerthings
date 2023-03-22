@@ -6,7 +6,7 @@
     .controller('MainController', MainController);
 
   /** @ngInject */
-  function MainController($scope, $window, Api, Helpers) {
+  function MainController($scope, $window, $log, Api, Helpers) {
 
     var vm = this;
     var UPLOAD_WIDTH = 650;
@@ -105,18 +105,21 @@
         vm.loading = false;
         vm.showCanvas = true;
 
-        if (result.data.status == 'success') {
+        // $log.log(result.statusText);
+        // $log.log(result);
+
+        if (result.status == 200) {
 
             // scoped properties to be used in our stranger canvas directive
             vm.success = true;
             vm.renderToCanvas = true;
             vm.userImage = imageToDisplay;
-            vm.userText = result.data.results[0].toUpperCase();
-            vm.imageLabels = result.data.results;
-            
+            vm.userText = result.data[0].description.toUpperCase();
+            vm.imageLabels = result.data;
 
         } else {
 
+          // $log.log(result);
           alert('Something went wrong :(');
           vm.success = false;
 
@@ -125,8 +128,8 @@
       }).catch(function () {
 
         // quick fix to deal with cloud vision api rate limit
-        alert('This site is too busy right now :( Please try again, or come back later.');
-        $window.location.reload();
+        // alert('This site is too busy right now :( Please try again, or come back later.');
+        // $window.location.reload();
 
       });
 
