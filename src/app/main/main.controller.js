@@ -128,8 +128,8 @@
       }).catch(function () {
 
         // quick fix to deal with cloud vision api rate limit
-        // alert('This site is too busy right now :( Please try again, or come back later.');
-        // $window.location.reload();
+        alert('This site is too busy right now :( Please try again, or come back later.');
+        $window.location.reload();
 
       });
 
