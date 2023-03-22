@@ -16,12 +16,11 @@
     switch(host)
     {
       case 'localhost' :
-        path = "http://localhost:8000/api";
+        path = "http://127.0.0.1:5001/even-stranger-things/us-central1/getImageAnnotations";
         break;
 
-      case 'evenstrangerthings.s3-website-us-east-1.amazonaws.com' :
       default :
-        path = "http://dapi.us-east-1.elasticbeanstalk.com/api";
+        path = "https://us-central1-even-stranger-things.cloudfunctions.net/getImageAnnotations";
       break;
     }
 
