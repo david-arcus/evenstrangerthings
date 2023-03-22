@@ -38,7 +38,13 @@
 
                 if (ready) {
 
-                    var output = "I saw: " + vm.imageLabels.join(', ');
+                    // $log.log(vm.imageLabels);
+
+                    var labels = vm.imageLabels.map(function(item) {
+                        return item.description;
+                    })
+
+                    var output = "I saw: " + labels.join(', ');
 
                     function typeWriter() {
 
