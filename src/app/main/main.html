@@ -1,21 +1,27 @@
-<div class="lighting"><img src="/assets/images/lighting.png" /></div>
-<div class="hero"><img src="/assets/images/even-stranger-things.svg" /></div>
-<div class="desc"><img src="/assets/images/description.svg" /></div>
+<div class="lighting" ng-class="{hide: main.showCanvas}"><img src="/assets/images/lighting.png" /></div>
+<div class="hero" ng-class="{hide: main.showCanvas}"><img src="/assets/images/even-stranger-things.svg" /></div>
+<div class="desc" ng-class="{hide: main.showCanvas}"><img src="/assets/images/description.svg" /></div>
 
 <spinner ng-show="!main.allAssetsLoaded"></spinner>
 
-<div class="upload" ngf-select="main.upload($file)" ngf-accept="'image/*'" ngf-capture="'camera'" ng-show="main.allAssetsLoaded">
+<div class="upload" ng-class="{hide: main.showCanvas}" ngf-select="main.upload($file)" ngf-accept="'image/*'" ng-show="main.allAssetsLoaded">
   <img class="tv" src="assets/images/tv.png" />
   <img class="upload-an-image" src="assets/images/upload-an-image.png" ng-hide="main.loading" />
   <img class="glitch" src="assets/images/loading.gif" />
 </div>
 
-<div class="canvas-container" ng-show="main.allAssetsLoaded">
+<div class="canvas-container" ng-show="main.allAssetsLoaded" ng-class="{show: main.showCanvas}">
 
-  <canvas id="preview"></canvas>
-  <img src="assets/images/canvas-placeholder.png" />
+  <stranger-canvas 
+    render-to-canvas="main.renderToCanvas" 
+    user-image="main.userImage" 
+    user-text="main.userText"
+    display-width="main.displayWidth"></stranger-canvas>
+  <img src="assets/images/canvas-placeholder.png" class="no-pointer"/>
+  <show-image-labels 
+    render-to-canvas="main.renderToCanvas" 
+    image-labels="main.imageLabels"></show-image-labels>
   <div class="share">
-    <!-- <img src="assets/images/share.png" /> -->
     <img src="assets/images/go-again.png" ng-click="main.goAgain()"/>
   </div>
 
@@ -26,12 +32,3 @@
   <img id="mask" src="assets/images/mask.png" />
   <img id="lighting-small" src="assets/images/lighting-small.png" />
 </div>
-<!--
-<div class="uploading" ng-show="main.uploading">
-  <spinner></spinner>
-</div>
-
-<div class="share" ng-show="main.uploaded">
-  <div class="facebook"></div>
-  <div class="download"></div>
-</div> -->
